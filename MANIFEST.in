@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include zk_integration *.css
+recursive-include zk_integration *.csv
+recursive-include zk_integration *.html
+recursive-include zk_integration *.ico
+recursive-include zk_integration *.js
+recursive-include zk_integration *.json
+recursive-include zk_integration *.md
+recursive-include zk_integration *.png
+recursive-include zk_integration *.py
+recursive-include zk_integration *.svg
+recursive-include zk_integration *.txt
+recursive-exclude zk_integration *.pyc
