@@ -1,0 +1,129 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-10-15 23:01:50.698903",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "section_break_dugf8",
+  "pull_record",
+  "sync_attendance",
+  "column_break_om7vf",
+  "check_the_connection_section",
+  "check",
+  "section_break_x8yvw",
+  "last_sync",
+  "section_break_6k04x",
+  "from_date",
+  "column_break_f4ykg",
+  "to_date",
+  "device_list_section",
+  "selected_device"
+ ],
+ "fields": [
+  {
+   "fieldname": "check_the_connection_section",
+   "fieldtype": "Heading",
+   "label": "Check The Connection"
+  },
+  {
+   "fieldname": "check",
+   "fieldtype": "Button",
+   "label": "Press"
+  },
+  {
+   "fieldname": "column_break_om7vf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sync_attendance",
+   "fieldtype": "Button",
+   "label": "Press"
+  },
+  {
+   "fieldname": "device_list_section",
+   "fieldtype": "Section Break",
+   "label": "Device List "
+  },
+  {
+   "fieldname": "selected_device",
+   "fieldtype": "Table",
+   "label": "Selected Device",
+   "options": "Device List"
+  },
+  {
+   "fieldname": "pull_record",
+   "fieldtype": "Heading",
+   "label": "Pull Record"
+  },
+  {
+   "fieldname": "section_break_x8yvw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From"
+  },
+  {
+   "fieldname": "column_break_f4ykg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "AT-SSS-.YYYY.-"
+  },
+  {
+   "fieldname": "section_break_dugf8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "last_sync",
+   "fieldtype": "Datetime",
+   "label": "Last Sync",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_6k04x",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-10-16 14:05:40.124257",
+ "modified_by": "Administrator",
+ "module": "Zktecho",
+ "name": "Attendance Sync",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_views": 1
+}

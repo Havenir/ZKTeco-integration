@@ -215,3 +215,13 @@ app_license = "y"
 # auth_hooks = [
 #	"zk_integration.auth.validate"
 # ]
+doc_events = {
+    "Employee": {
+        "validate": "zk_integration.zktecho.user_creation.create_zkteco_user",
+        "before_save": "zk_integration.zktecho.user_creation.delete_zkteco_user"
+    }
+}
+
+fixtures = [
+    {"dt": "Custom Field", "filters": [["name", "in", ["Employee-sync_in_zk_device", "Employee-role_this_user_will_have", "Employee-device_list"]]]},
+]
