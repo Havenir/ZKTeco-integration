@@ -77,7 +77,7 @@ def connect_to_zkteco_device(emp_name, emp_id, emp_privileges, device_name, devi
 
 def delete_zkteco_user(doc, method):
     original_doc = doc.get_doc_before_save()
-    if original_doc.sync_in_zk_device == 1:
+    if original_doc and original_doc.sync_in_zk_device == 1:
         previous_device_list = original_doc.device_list
         current_device_list = doc.device_list
         emp_uid=int(doc.attendance_device_id)
@@ -110,8 +110,7 @@ def delete_zkteco_user(doc, method):
                     else:
                         frappe.msgprint(f"Failed to connect to {device_name} for employee {emp_name}")
             
-    else:
-        frappe.msgprint("none")
+
 
 def delete_user(emp_uid, device_name, device_ip, device_port, device_password,emp_name):
     conn = None
