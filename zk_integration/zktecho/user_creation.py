@@ -14,11 +14,8 @@ def create_zkteco_user(doc, method):
 
             if device_doc:
                 device_ip = str(device_doc.ip)
-                print(device_ip)
                 device_port = int(device_doc.port)
-                print(device_port)
                 device_password = int(device_doc.password)
-                print(device_password)
 
                 if connect_to_zkteco_device(emp_name, emp_id, emp_privileges, device_name, device_ip, device_port, device_password):
                     frappe.msgprint(f"Successfully connected to {device_name} for employee {emp_name}")
@@ -36,35 +33,36 @@ def connect_to_zkteco_device(emp_name, emp_id, emp_privileges, device_name, devi
         conn.test_voice(index=10) 
 
         # Use the provided parameters for setting the user
-        user_info = conn.set_user(
-            uid=int(emp_id),
+        privilege_value = getattr(const, emp_privileges, None)
+
+        if privilege_value is not None:
+            user_info = conn.set_user(
+                uid=int(emp_id),
+                name=emp_name,
+                privilege=privilege_value,
+                password='123',
+                group_id='',
+                user_id=emp_id,
+                card=0
+            )
+
+            users = conn.get_users()
+            print(users)
+            desired_uid = int(emp_id)
+            user_found = False  
+
+            for user in users:
+                print(f"Checking User ID: {user.uid}")
+
+                if user.uid == desired_uid:
+                    frappe.msgprint(f"User ID: {user.uid}, Name: {user.name}, Successfully Sync in Attendance Device: {device_name}")
+                    user_found = True  
+                    break 
             
-            name=emp_name,
-            privilege=emp_privileges,
-            password='123',
-            group_id='',
-            user_id=emp_id,
-            card=0
-        )
-
-        users = conn.get_users()
-        print(users)
-        desired_uid = int(emp_id)
-        user_found = False  
-        
-        for user in users:
-            print(f"Checking User ID: {user.uid}")
-
-            if user.uid == desired_uid:
-                frappe.msgprint(f"User ID: {user.uid}, Name: {user.name}, Successfully Sync in Attendance Device: {device_name}")
-                user_found = True  
-                break 
-        
-        if not user_found:
-            frappe.msgprint(f"Failed To Create in Attendnace Device User ID: {desired_uid} ")
-
-        
-
+            if not user_found:
+                frappe.msgprint(f"Failed To Create in Attendnace Device User ID: {desired_uid} ")
+        else:
+            frappe.msgprint(f"Invalid privilege value: {emp_privileges}")
 
         return True
     except Exception as e:
@@ -99,11 +97,8 @@ def delete_zkteco_user(doc, method):
 
                 if device_doc:
                     device_ip = str(device_doc.ip)
-                    print(device_ip)
                     device_port = int(device_doc.port)
-                    print(device_port)
                     device_password = int(device_doc.password)
-                    print(device_password)
 
                     if delete_user(emp_uid, device_name, device_ip, device_port, device_password,emp_name):
                         frappe.msgprint(f"Successfully Deleted employee {device_name} from {emp_name}")
@@ -117,7 +112,6 @@ def delete_user(emp_uid, device_name, device_ip, device_port, device_password,em
     try:
         zk = ZK(device_ip, port=device_port, timeout=5, password=device_password, force_udp=False, ommit_ping=False)
         conn = zk.connect()
-        print(f"Connection to {device_name} successful for employee {emp_name}")
         conn.delete_user(uid=emp_uid)
         conn.test_voice(index=11) 
 

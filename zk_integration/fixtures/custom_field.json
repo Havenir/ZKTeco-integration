@@ -91,7 +91,7 @@
   "name": "Employee-role_this_user_will_have",
   "no_copy": 0,
   "non_negative": 0,
-  "options": "USER_DEFAULT\nUSER_MANAGER\nUSER_ENROLLER\nUSER_SUPERMANAGER",
+  "options": "USER_DEFAULT\nUSER_ADMIN",
   "permlevel": 0,
   "precision": "",
   "print_hide": 0,
