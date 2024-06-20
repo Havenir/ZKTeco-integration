@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "status",
   "section_break_dugf8",
   "pull_record",
   "sync_attendance",
@@ -97,11 +98,18 @@
   {
    "fieldname": "section_break_6k04x",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nInitiated\nIn-Progress\nCompleted",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-10-16 14:05:40.124257",
+ "modified": "2024-06-20 12:12:30.434697",
  "modified_by": "Administrator",
  "module": "Zktecho",
  "name": "Attendance Sync",

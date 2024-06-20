@@ -3,7 +3,6 @@
 
 frappe.ui.form.on('Attendance Sync', {
     check: function(frm) {
-		console.log(frm.selected_doc.name)
 		frappe.call({
             method: 'zk_integration.zktecho.attendance_pull.test_connection',
 			args: {
@@ -20,7 +19,6 @@ frappe.ui.form.on('Attendance Sync', {
 		});
     },
 	sync_attendance: function(frm) {
-		console.log(frm.selected_doc.name)
 		frappe.call({
             method: 'zk_integration.zktecho.attendance_pull.attendance_pull',
 			args: {
