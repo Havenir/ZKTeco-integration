@@ -10,12 +10,13 @@
  "field_order": [
   "naming_series",
   "status",
-  "section_break_dugf8",
-  "pull_record",
-  "sync_attendance",
-  "column_break_om7vf",
-  "check_the_connection_section",
-  "check",
+  "column_break_chade",
+  "posting_date",
+  "section_break_uoxmf",
+  "select_frequency",
+  "column_break_oz31l",
+  "important",
+  "manually_important",
   "section_break_x8yvw",
   "last_sync",
   "section_break_6k04x",
@@ -27,25 +28,6 @@
  ],
  "fields": [
   {
-   "fieldname": "check_the_connection_section",
-   "fieldtype": "Heading",
-   "label": "Check The Connection"
-  },
-  {
-   "fieldname": "check",
-   "fieldtype": "Button",
-   "label": "Press"
-  },
-  {
-   "fieldname": "column_break_om7vf",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "sync_attendance",
-   "fieldtype": "Button",
-   "label": "Press"
-  },
-  {
    "fieldname": "device_list_section",
    "fieldtype": "Section Break",
    "label": "Device List "
@@ -55,11 +37,6 @@
    "fieldtype": "Table",
    "label": "Selected Device",
    "options": "Device List"
-  },
-  {
-   "fieldname": "pull_record",
-   "fieldtype": "Heading",
-   "label": "Pull Record"
   },
   {
    "fieldname": "section_break_x8yvw",
@@ -82,12 +59,9 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Naming Series",
    "options": "AT-SSS-.YYYY.-"
-  },
-  {
-   "fieldname": "section_break_dugf8",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "last_sync",
@@ -96,6 +70,7 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval:doc.select_frequency == \"Manually\"",
    "fieldname": "section_break_6k04x",
    "fieldtype": "Section Break"
   },
@@ -103,13 +78,52 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "\nInitiated\nIn-Progress\nCompleted",
+   "options": "\nInitiated\nIn-Progress\nCompleted\nFailed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_uoxmf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "select_frequency",
+   "fieldtype": "Select",
+   "label": "Select Frequency",
+   "options": "Manually\nDaily\nMonthly"
+  },
+  {
+   "fieldname": "column_break_oz31l",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "It will Calculate at whole month attendance at the end of every moth",
+   "depends_on": "eval:doc.select_frequency == \"Monthly\"",
+   "fieldname": "important",
+   "fieldtype": "Small Text",
+   "label": "Important",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_chade",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "default": "On Action dropdown press Sync Attendance",
+   "depends_on": "eval:doc.select_frequency == \"Manually\"",
+   "fieldname": "manually_important",
+   "fieldtype": "Small Text",
+   "label": "Important",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-20 12:12:30.434697",
+ "modified": "2024-06-25 13:50:07.597262",
  "modified_by": "Administrator",
  "module": "Zktecho",
  "name": "Attendance Sync",

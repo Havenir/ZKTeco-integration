@@ -4,8 +4,8 @@ from datetime import datetime
 
 
 @frappe.whitelist(allow_guest=True)
-def test_connection(**args):
-    doc_name = args.get("baseName")
+def test_connection(baseName):
+    doc_name = baseName
     record = frappe.get_doc("Attendance Sync", doc_name)
     emp_device_list = record.selected_device
     for row in emp_device_list:
@@ -42,7 +42,7 @@ def connect_to_device(device_ip, device_port, device_password):
         conn.test_voice(index=10)
         return conn
     except Exception as e:
-        frappe.msgprint(f"Failed to connect to device {device_ip}: {str(e)}")
+        frappe.log_error(f"Failed to connect to device {device_ip}: {str(e)}", "Device Connection Error")
         return None
     finally:
         if conn:
@@ -51,8 +51,8 @@ def connect_to_device(device_ip, device_port, device_password):
 
 
 @frappe.whitelist(allow_guest=True)
-def attendance_pull(**args):
-    doc_name = args.get("baseName")
+def attendance_pull(baseName):
+    doc_name = baseName
     record = frappe.get_doc("Attendance Sync", doc_name)
     emp_device_list = record.selected_device
     start_date_str = str(record.get("from_date"))
@@ -141,27 +141,41 @@ def retrieving_attendance(
                         try:
                             check_in.insert()
                             record.db_set("status", "Completed")
+                            record.db_set("last_sync", frappe.utils.now_datetime())  # noqa
                             device_doc.db_set("last_sync", frappe.utils.now_datetime())  # noqa
-                            device_doc.db_set("sync_status", "Successfull")
+                            device_doc.db_set("sync_status", "Successful")
 
                         except Exception as e:
-                            frappe.msgprint("Error creating check-in record:", str(e))  # noqa
+                            error_message = f"Error creating check-in record: {str(e)}"  # noqa
+                            frappe.log_error(error_message, "Check-in Insertion Error")  # noqa
+                            record.db_set("last_sync", frappe.utils.now_datetime())  # noqa
+
                             record.db_set("status", "Failed")
                             device_doc.db_set("last_sync", frappe.utils.now_datetime())  # noqa
-                            device_doc.db_set("sync_status", "Unuccessfull")
+                            device_doc.db_set("sync_status", "Unsuccessful")
 
                     else:
-                        frappe.msgprint("Duplicate entry found for", employee)
+                        error_message = f"Duplicate entry found for {employee}"
+                        frappe.log_error(error_message, "Duplicate Check-in Error")  # noqa
+                        record.db_set("last_sync", frappe.utils.now_datetime())  # noqa
                         record.db_set("status", "Failed")
+                        device_doc.db_set("last_sync", frappe.utils.now_datetime())  # noqa
+                        device_doc.db_set("sync_status", "Unsuccessful")
+
 
                 else:
-                    frappe.msgprint("Employee not found for user_id:", log.user_id)  # noqa
+                    error_message = f"Employee not found for user_id: {log.user_id}"  # noqa
+                    frappe.log_error(error_message, "Employee Not Found Error")
+                    record.db_set("last_sync", frappe.utils.now_datetime())  # noqa
                     record.db_set("status", "Failed")
+                    device_doc.db_set("last_sync", frappe.utils.now_datetime())  # noqa
+                    device_doc.db_set("sync_status", "Unsuccessful")
 
     except Exception as e:
-        frappe.msgprint("Process terminated:", str(e))
+        error_message = f"Process terminated: {str(e)}"
+        frappe.log_error(error_message, "Attendance Pull Error")
         record.db_set("status", "Failed")
         device_doc.db_set("last_sync", frappe.utils.now_datetime())  # noqa
-        device_doc.db_set("sync_status", "Unuccessfull")
+        device_doc.db_set("sync_status", "Unsuccessful")
 
         return False
