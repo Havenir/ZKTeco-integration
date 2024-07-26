@@ -218,10 +218,18 @@ app_license = "y"
 doc_events = {
     "Employee": {
         "validate": "zk_integration.zktecho.user_creation.create_zkteco_user",
-        "before_save": "zk_integration.zktecho.user_creation.delete_zkteco_user"
+        "before_save": "zk_integration.zktecho.user_creation.delete_zkteco_user"  # noqa
     }
 }
 
 fixtures = [
-    {"dt": "Custom Field", "filters": [["name", "in", ["Employee-sync_in_zk_device", "Employee-role_this_user_will_have", "Employee-device_list"]]]},
+    {"dt": "Custom Field", "filters": [["name", "in", ["Employee-sync_in_zk_device", "Employee-role_this_user_will_have", "Employee-device_list"]]]},  # noqa
 ]
+
+scheduler_events = {
+    "cron": {
+        "0 1 * * *": [
+            "zk_integration.zktecho.cron.attendance_sync.process_attendance_sync",  # noqa
+        ]
+    },
+}
