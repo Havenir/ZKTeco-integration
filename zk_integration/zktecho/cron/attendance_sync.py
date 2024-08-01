@@ -41,6 +41,10 @@ def process_daily(attendance_sync_doc):
             attendance_sync_doc.db_set('from_date', start_date)
             attendance_sync_doc.db_set('to_date', end_date)
             attendance_pull(attendance_sync_doc.name)
+        elif today_date > new_date:
+            attendance_sync_doc.db_set('from_date', sync_date)
+            attendance_sync_doc.db_set('to_date', today_date)
+            attendance_pull(attendance_sync_doc.name)
     except Exception:
         frappe.log_error(message=frappe.get_traceback(), title=f"Error processing daily attendance for {attendance_sync_doc.name}")  # noqa
 
