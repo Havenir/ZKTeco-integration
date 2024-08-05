@@ -35,7 +35,7 @@ def process_daily(attendance_sync_doc):
         today_date = datetime.today().date()  # This will extract the date part from datetime
 
         sync_date = last_sync or posting_date
-        new_date = add_day(sync_date)
+        new_date = add_day(sync_date).date()
         start_date, end_date = get_start_end_dates(sync_date)
         if today_date == new_date:
             attendance_sync_doc.db_set('from_date', start_date)
@@ -54,13 +54,17 @@ def process_monthly(attendance_sync_doc):
     try:
         last_sync = attendance_sync_doc.last_sync
         posting_date = attendance_sync_doc.posting_date
-        today_date = datetime.today().date()  # This will extract the date part from datetime
+        today_date = datetime.today().date()   # This will extract the date part from datetime
         sync_date = last_sync or posting_date
-        new_date = add_day(sync_date)
         start_date, end_date = get_start_end_dates_of_month(sync_date)
+        new_date = add_day(end_date)
         if today_date == new_date:
             attendance_sync_doc.db_set('from_date', start_date)
             attendance_sync_doc.db_set('to_date', end_date)
+            attendance_pull(attendance_sync_doc.name)
+        elif today_date > new_date:
+            attendance_sync_doc.db_set('from_date', sync_date)
+            attendance_sync_doc.db_set('to_date', today_date)
             attendance_pull(attendance_sync_doc.name)
     except Exception:
         frappe.log_error(message=frappe.get_traceback(), title=f"Error processing monthly attendance for {attendance_sync_doc.name}")  # noqa
