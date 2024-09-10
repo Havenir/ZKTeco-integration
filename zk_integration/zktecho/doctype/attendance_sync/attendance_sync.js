@@ -27,6 +27,7 @@ frappe.ui.form.on('Attendance Sync', {
                         callback: function(r) {
                             if (r.message) {
                                 frappe.msgprint(r.message);
+                                frm.refresh();
                             }
                         }
                     });
