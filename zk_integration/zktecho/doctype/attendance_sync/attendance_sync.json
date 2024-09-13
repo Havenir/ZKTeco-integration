@@ -24,7 +24,9 @@
   "column_break_f4ykg",
   "to_date",
   "device_list_section",
-  "selected_device"
+  "selected_device",
+  "section_break_ybzd",
+  "latest_remarks"
  ],
  "fields": [
   {
@@ -119,11 +121,21 @@
    "fieldtype": "Small Text",
    "label": "Important",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_ybzd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "latest_remarks",
+   "fieldtype": "Text Editor",
+   "label": "Latest Remarks",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-25 13:50:07.597262",
+ "modified": "2024-09-10 15:53:40.286908",
  "modified_by": "Administrator",
  "module": "Zktecho",
  "name": "Attendance Sync",
