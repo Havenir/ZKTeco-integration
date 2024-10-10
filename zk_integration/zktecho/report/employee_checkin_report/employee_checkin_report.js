@@ -8,17 +8,9 @@ frappe.query_reports["Employee Checkin Report"] = {
             "label": __("Employee"),
             "fieldtype": "Link",
             "options": "Employee",
+            "reqd": 1,
             "default": frappe.session.user !== 'Administrator' ? get_employee_by_email(frappe.session.user_email) : null,
-            "get_query": function() {
-                if (frappe.session.user !== 'Administrator') {
-                    return {
-                        filters: {
-                            'user_id': frappe.session.user_email  // Restrict employee by the current user's email
-                        }
-                    };
-                }
-                return {};
-            }
+           
         },
         {
             "fieldname": "from_date",
