@@ -8,18 +8,23 @@ frappe.query_reports["Employee Checkin Report"] = {
             "label": __("Employee"),
             "fieldtype": "Link",
             "options": "Employee",
+            "reqd": 1,
+            "default": frappe.session.user !== 'Administrator' ? get_employee_by_email(frappe.session.user_email) : null,
+           
         },
         {
             "fieldname": "from_date",
             "label": __("From Date"),
             "fieldtype": "Date",
             "width": "80",
+            "default": frappe.datetime.month_start()  // Set to current month start
         },
         {
             "fieldname": "to_date",
             "label": __("To Date"),
             "fieldtype": "Date",
             "width": "80",
+            "default": frappe.datetime.month_end()  // Set to current month end
         },
     ],
     
@@ -134,4 +139,25 @@ function create_records(doctype, rows, leave_type = null) {
             }
         });
     });
+}
+
+function get_employee_by_email(user_email) {
+    let employee = null;
+    
+    frappe.call({
+        method: "frappe.client.get_value",
+        args: {
+            doctype: "Employee",
+            filters: { user_id: user_email },
+            fieldname: "name"
+        },
+        async: false,  // This ensures we get the value synchronously
+        callback: function(response) {
+            if (response && response.message) {
+                employee = response.message.name;
+            }
+        }
+    });
+    
+    return employee;
 }
